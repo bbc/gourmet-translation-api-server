@@ -2,6 +2,8 @@
 
 The translation API provides an interface to expose translation models produced as part of the GoURMET project. These models are shared as docker images and use this [template](https://github.com/bbc/gourmet-translation-module-template) to provide a standardised web app interface with a `/translate` endpoint. To integrate a new model see the [Adding a new Translation Model](#adding-a-new-translation-model) section.
 
+The API interface is defined using the [Open API](https://swagger.io/docs/specification/about/) specification. All changes to the API interface must be made by updating this specification. The specification is in the [openAPISpecification directory](./openAPISpecification/apiSpecification.json)
+
 The API is built using AWS services. This project contains the Cloudformation templates to generate the API infrastructure. The Cloudformation templates are written in javascript using [AWS CDK](https://docs.aws.amazon.com/cdk/).
 
 ## Working with AWS CDK
