@@ -2,19 +2,13 @@
 
 The translation API provides an interface to expose translation models produced as part of the GoURMET project. These models are shared as docker images and use this [template](https://github.com/bbc/gourmet-translation-module-template) to provide a standardised web app interface with a `/translate` endpoint. To integrate a new model see the [Adding a new Translation Model](#adding-a-new-translation-model) section.
 
-# Translation Models Cluster
+The API is build using AWS services. This project contains the Cloudformation templates to generate the API infrastructure. The Cloudformation templates are written in javascript using [AWS CDK](https://docs.aws.amazon.com/cdk/).
 
-The cluster uses ECS. In this instance the containers are running on Fargate.
-
-## CDK
-
-Currently in the process of migrating to using [CDK](https://docs.aws.amazon.com/cdk/) to build the cloudformation template for the architecture that makes up the API.
-
-The `cdk.json` file tells the CDK Toolkit how to execute the app.
+## Working with AWS CDK
 
 ### Setting up CDK
 
-1. Install the cdk commandline tool
+1. Install the cdk command line tool
 
 ```
 npm install -g aws-cdk
@@ -28,7 +22,13 @@ cdk --version
 
 ### Building the template
 
-`cdk synth`: emits the synthesized [CloudFormation template](./cdk.out/TranslationApiStack.template.json) in the cdk.out directory.
+The `cdk.json` file tells the CDK Toolkit how to execute the app.
+
+`cdk synth`: emits the synthesized CloudFormation templates as `*.template.JSON` files in the [cdk.out](./cdk.out)  directory.
+
+# Translation API Cluster
+
+The cluster uses ECS. In this instance the containers are running on Fargate.
 
 ## Adding a new translation model
 
@@ -36,7 +36,7 @@ Requirements:
 - [Docker installed locally](https://docs.docker.com/get-docker/)
 - [AWS CLI Tool](https://aws.amazon.com/cli/)
 - Local AWS Credentials in the `~/.aws/credentials file for the GoURMET AWS account
-- [CDK](#cdk)
+- [CDK](#setting-up-cdk)
 
 ### 1. Test new Docker Image locally
 
