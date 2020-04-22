@@ -52,7 +52,10 @@ Requirements:
 
 The Docker Images are shared by the universities as either GZIP Compressed Tar Archive file (`.tgz` extension) or just Tar Archive files (`.tar` extension).
 
-1. Download the file locally
+1. Download the file locally. The download and upload will be slow if it is a large image so there are [instructions](#test-and-host-docker-images-ec2) to run the 'Test new Docker Image locally` and 'Hosting Docker Images' steps on EC2. This should be much quicker.
+
+`wget https://www.something.com/img.tgz`
+
 2. Import the image file into Docker.
 
 `docker load < NAME_OF_FILE.tgz`
@@ -84,9 +87,9 @@ The Docker images are hosted on [Elastic Container Registry](https://aws.amazon.
 
 `docker tag REPOSITORY_URI:v0.1 REPOSITORY_URI:latest`
 
-4. Log in to ECR so that the image can be pushed to the ECR repository created. The registry id is the number at the start of the Registry URI
+4. Log in to ECR so that the image can be pushed to the ECR repository created. The registry id is the number at the start of the Registry URI. The command below outputs a docker command as a string so that it is possible to push to ECR. The docker command needs to be run as well so it is piped into `sh` which will run it.
 
-`aws ecr get-login --registry-ids AWS_ACCOUNT_ID --region eu-west-1 --no-include-email`
+`aws ecr get-login --registry-ids AWS_ACCOUNT_ID --region eu-west-1 --no-include-email | sh`
 
 5. Push the image up to the ECR registry with both the `latest` and `v0.1` tag. This requires 2 pushes. The first one will probably be slow depending on the size of the image.
 
@@ -114,3 +117,26 @@ The `addLanguage` function creates a new ECS Task Definition and ECS Service and
 
 3. Generate the updated Cloudformation template for the infrastructure using `cdk synth`. This will update the [TranslationApiClusterStack.template.json](./cdk.out/TranslationApiClusterStack.template.json) file.
 4. Update the Translation API cluster stack in ***REMOVED*** using the new JSON template.
+
+### Test and host Docker Images EC2
+
+It is possible to run the test and host steps of Adding a new translation model on your local machine but the download and push steps are likely to be slow so the steps can also be run on an EC2 instance
+
+1. Create a IAM Role in the AWS Console.
+- This should be an EC2 Role for an AWS service
+- Under permissions attach the `AmazonEC2ContainerRegistryFullAccess` policy
+- Give it a memorable name as this Role must be destroyed after the [Test](###1-test-new-docker-image-locally) and [Host](#2-hosting-docker-images) steps are complete
+2. Create a new EC2 instance in the AWS Console
+- When choosing an AMI I would use 'Docker on Ubuntu 18' or 'Ubuntu 18'. If using Ubuntu 18 docker will need to be installed on the EC2 instance later.
+- Choose an instance type with high network performance e.g. one that is 'Up to 10 Gigabit'
+- Select 'configure instance details'. Make sure that you auto assign a public IP and under 'IAM Role' select the role created in step 1.
+- Select 'add storage' increase the size of the root volume. 32 GiB should be plenty of space.
+- Review and launch
+- On once you've clicked 'launch' create and download a new key pair using the pop up window. This is what you will use to SSH into the running instance
+3. In the AWS Console select the EC2 instance you just created and click 'connect' this will give you the SSH command you need to log in to the EC2 instance from your machine
+4. SSH into the machine
+5. If the 'Docker on Ubuntu 18' AMI isn't used then [install docker](https://linuxhandbook.com/install-docker-ubuntu/)
+6. Do the [Test](###1-test-new-docker-image-locally) and [Host](#2-hosting-docker-images) steps then clean up all resources created in AWS
+- Delete IAM Role
+- Terminate EC2 Instance
+- Delete Key Pair you created. The Key Pair is in EC2 > Key Pairs
