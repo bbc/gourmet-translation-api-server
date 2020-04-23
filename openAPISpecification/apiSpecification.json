@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.2",
   "info": {
-    "title": "GoURMET Translate API",
+    "title": "GoURMET Translation API",
     "description": "Translation API produced as part of the GoURMET project this API exposes the translation models build.",
     "version": "1.0"
   },
