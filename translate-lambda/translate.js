@@ -2,7 +2,7 @@ const fetch = require("node-fetch");
 const errorModels = require("./errorModels");
 const utils = require("./utils");
 
-const translationRequest = (url, q, source, target) => {
+const translationRequest = (q, source, target) => {
   if (q === undefined || source === undefined || target === undefined) {
     return Promise.reject(
       new errorModels.InvalidInputError(
@@ -10,6 +10,7 @@ const translationRequest = (url, q, source, target) => {
       )
     );
   } else {
+    const url = utils.getTranslationModelURL(source, target);
     if (url === undefined) {
       return Promise.reject(
         new errorModels.InvalidInputError(
@@ -42,8 +43,7 @@ const translate = (request) => {
   const target = body.target;
   const q = body.q;
 
-  const translationUrl = utils.getTranslationModelURL(source, target);
-  return translationRequest(translationUrl, q, source, target)
+  return translationRequest(q, source, target)
     .then((response) => {
       console.info(
         `Translate ${source} to ${target}. In ${response.time_taken}ms. Result: ${response.result}`
