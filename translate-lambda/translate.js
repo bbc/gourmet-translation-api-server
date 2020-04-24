@@ -3,10 +3,10 @@ const errorModels = require("./errorModels");
 const utils = require("./utils");
 
 const translationRequest = (url, q, source, target) => {
-  if (q === undefined) {
+  if (q === undefined || source === undefined || target === undefined) {
     return Promise.reject(
       new errorModels.InvalidInputError(
-        `"q must be defined in the request body`
+        `"q", "source" and "target" must all be defined in the request body`
       )
     );
   } else {
