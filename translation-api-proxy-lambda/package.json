@@ -1,0 +1,14 @@
+{
+  "name": "translation-api-proxy-lambda",
+  "version": "1.0.0",
+  "description": "Lambda proxy between API Gateway and ECS translation cluster",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "node-fetch": "^2.6.0"
+  }
+}
