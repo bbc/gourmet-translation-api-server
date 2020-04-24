@@ -1,4 +1,4 @@
-# Translation API Proxy Lambda
+# Translate Lambda
 
 Lambda to map API Gateway requests to the Load Balancer in front of the ECS Cluster
 
