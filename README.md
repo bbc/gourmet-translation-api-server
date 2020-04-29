@@ -1,8 +1,16 @@
 # GoURMET Translation API
 
-The translation API provides an interface to expose translation models produced as part of the GoURMET project. These models are shared as docker images and use this [template](https://github.com/bbc/gourmet-translation-module-template) to provide a standardised web app interface with a `/translate` endpoint. To integrate a new model see the [Adding a new Translation Model](#adding-a-new-translation-model) section.
+The GoURMET Translation API has been build as part of the [GoURMET Project](https://gourmet-project.eu/). It's purpose to to provide a single platform where all translation models produced as part of the GoURMET project can be hosted, run and accessed rather than forcing the user of the translation technology to need to integrate the translation models into the project directly. This allows a single point for maintenance and upgrades to the translation models.
 
-The API interface is defined using the [Open API](https://swagger.io/docs/specification/about/) specification. All changes to the API interface must be made by updating this specification. The specification is in the [openAPISpecification directory](./openAPISpecification/apiSpecification.json)
+## Contents
+
+1. [Architecture](./docs/architecture.md)
+
+## Infrastructure
+
+The API is build using AWS Technologies
+
+The translation API provides an interface to expose translation models produced as part of the GoURMET project. These models are shared as docker images and use this [template](https://github.com/bbc/gourmet-translation-module-template) to provide a standardised web app interface with a `/translate` endpoint. To integrate a new model see the [Adding a new Translation Model](#adding-a-new-translation-model) section.
 
 The API is built using AWS services. This project contains the Cloudformation templates to generate the API infrastructure. The Cloudformation templates are written in javascript using [AWS CDK](https://docs.aws.amazon.com/cdk/).
 
@@ -29,18 +37,6 @@ Run: `cdk synth`
 The `cdk.json` file tells the CDK Toolkit how to execute the app and build the Cloudformation template.
 
 `cdk synth`: emits the synthesized CloudFormation templates as `*.template.JSON` files in the [cdk.out](./cdk.out)  directory.
-
-# Translation API Cluster
-
-The Translation API cluster is the infrastructure that creates containers from the Machine Translation Docker images and allows traffic to be routed to specific images via a load balancer. All machine translation models are delivered as Docker images. [AWS ECS](https://aws.amazon.com/ecs/) is used manage how containers created from the Docker Images run as well as the infrastructure they will run on.
-
-The specific architecture of ECS is shown below. An AWS Cluster has been created which defines the infrastructure the containers will run on. In this specific instance, AWS Fargate is used as it removes the requirement to manage EC2 instances. An AWS Task Definition must be created for each Docker image. The Task Definition defines the properties of a container. This includes which Docker image to use and where to pull the image from, how much CPU power and memory to allocate the container and any AWS IAM Roles the container needs. Containers created using the Task Definitions are referred to as Tasks in AWS. The Tasks have been created within a Service. The Service maintains a specified number of instances of a Task and allows for the number of Tasks to be scaled up or down according to load on the system. The Service also health checks Tasks and destroys and replaces unhealthy ones.
-
-![](./docs/images/ECScluster.png)
-
-Traffic is allowed to each container via a specific port on the Load Balancer. This access is managed using an ECS Service. Each ECS Task has it's own ECS Service. A Listener exists on the Load Balancer for each ECS Service and traffic is directed using a Target Group to the ECS Service so the request can be fulfilled by a Task.
-
-![](./docs/images/LoadBalancer.png)
 
 ## Adding a new translation model
 
