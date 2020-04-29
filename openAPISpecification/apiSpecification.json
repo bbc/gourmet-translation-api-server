@@ -5,7 +5,7 @@
     "description": "Translation API produced as part of the GoURMET project this API exposes the translation models build.",
     "version": "1.0"
   },
-  "servers": [{ "url": "https://localhost/v1" }],
+  "servers": [{ "url": "https://translate-api.gourmet.newslabs.co/v1" }],
   "components": {
     "schemas": {
       "Error": {
@@ -13,8 +13,11 @@
         "properties": {
           "errors": {
             "type": "array",
-            "items": { "type": "string" }
+            "items": { "type": "string", "example": "Something went wrong" }
           }
+        },
+        "example": {
+          "errors": ["Something went wrong"]
         }
       }
     },
@@ -60,11 +63,14 @@
                       "items": {
                         "type": "object",
                         "properties": {
-                          "source": { "type": "string" },
-                          "target": { "type": "string" }
+                          "source": { "type": "string", "example": "en" },
+                          "target": { "type": "string", "example": "bg" }
                         }
                       }
                     }
+                  },
+                  "example": {
+                    "languagePairs": [{ "source": "en", "target": "bg" }]
                   }
                 }
               }
@@ -135,10 +141,18 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "q": { "type": "string" },
-                  "source": { "type": "string" },
-                  "target": { "type": "string" }
+                  "q": {
+                    "type": "string",
+                    "example": "This is an example sentence"
+                  },
+                  "source": { "type": "string", "example": "en" },
+                  "target": { "type": "string", "example": "bg" }
                 }
+              },
+              "example": {
+                "q": "This is an example sentence",
+                "source": "en",
+                "target": "bg"
               }
             }
           }
@@ -163,6 +177,11 @@
                       "type": "string",
                       "example": "en"
                     }
+                  },
+                  "example": {
+                    "translatedText": "This is a translation",
+                    "source": "bg",
+                    "target": "en"
                   }
                 }
               }
