@@ -55,6 +55,11 @@ const translate = (request) => {
           source,
           target,
         }),
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Headers":
+            "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
+        },
       };
     })
     .catch((error) => {

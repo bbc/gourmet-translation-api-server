@@ -12,6 +12,11 @@ class InvalidInputError extends TranslationError {
       body: JSON.stringify({
         errors: [message],
       }),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers":
+          "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
+      },
     });
   }
 }
@@ -23,6 +28,11 @@ class TranslationServiceError extends TranslationError {
       body: JSON.stringify({
         errors: [message],
       }),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers":
+          "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
+      },
     });
   }
 }
