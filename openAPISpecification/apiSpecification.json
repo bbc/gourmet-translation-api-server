@@ -41,6 +41,27 @@
             "schema": { "$ref": "#/components/schemas/Error" }
           }
         }
+      },
+      "Cors": {
+        "description": "Default response for CORS method",
+        "headers": {
+          "Access-Control-Allow-Origin": {
+            "schema": {
+              "type": "string"
+            }
+          },
+          "Access-Control-Allow-Methods": {
+            "schema": {
+              "type": "string"
+            }
+          },
+          "Access-Control-Allow-Headers": {
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "content": {}
       }
     }
   },
@@ -53,6 +74,23 @@
         "responses": {
           "200": {
             "description": "JSON Array of language pairs",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -126,6 +164,13 @@
             }
           }
         }
+      },
+      "options": {
+        "summary": "CORS Support",
+        "description": "Enable CORS by returning correct headers",
+        "responses": {
+          "200": { "$ref": "#/components/responses/Cors" }
+        }
       }
     },
     "/translate": {
@@ -160,6 +205,23 @@
         "responses": {
           "200": {
             "description": "A JSON object with the source and target language and the translated text.",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -244,6 +306,13 @@
               }
             }
           }
+        }
+      },
+      "options": {
+        "summary": "CORS Support",
+        "description": "Enable CORS by returning correct headers",
+        "responses": {
+          "200": { "$ref": "#/components/responses/Cors" }
         }
       }
     }
