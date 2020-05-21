@@ -34,6 +34,10 @@ const translationRequest = (q, source, target) => {
           return response.json();
         })
         .catch((error) => {
+          console.error(
+            `Failed to complete translation: ${source}-${target}:`,
+            error
+          );
           if (error.name === "AbortError") {
             return Promise.reject(
               new errorModels.TranslationServiceTimeoutError(
