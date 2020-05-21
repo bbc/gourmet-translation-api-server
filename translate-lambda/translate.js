@@ -35,8 +35,10 @@ const translationRequest = (q, source, target) => {
         })
         .catch((error) => {
           if (error.name === "AbortError") {
-            return new errorModels.TranslationServiceTimeoutError(
-              `Translation service time out: ${source}-${target}`
+            return Promise.reject(
+              new errorModels.TranslationServiceTimeoutError(
+                `Translation service time out: ${source}-${target}`
+              )
             );
           } else {
             return Promise.reject(
