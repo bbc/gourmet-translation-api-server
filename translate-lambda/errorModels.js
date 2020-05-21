@@ -37,4 +37,24 @@ class TranslationServiceError extends TranslationError {
   }
 }
 
-module.exports = { InvalidInputError, TranslationServiceError };
+class TranslationServiceTimeoutError extends TranslationError {
+  constructor(message) {
+    super(message, {
+      statusCode: 504,
+      body: JSON.stringify({
+        errors: [message],
+      }),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers":
+          "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
+      },
+    });
+  }
+}
+
+module.exports = {
+  InvalidInputError,
+  TranslationServiceError,
+  TranslationServiceTimeoutError,
+};
