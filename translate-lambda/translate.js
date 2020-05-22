@@ -69,22 +69,29 @@ const translate = (request) => {
 
   return translationRequest(q, source, target)
     .then((response) => {
-      console.info(
-        `Translate ${source} to ${target}. In ${response.time_taken}ms. Result: ${response.result}`
-      );
-      return {
-        statusCode: 200,
-        body: JSON.stringify({
-          translatedText: response.result,
-          source,
-          target,
-        }),
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Headers":
-            "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
-        },
-      };
+      if (response.error !== (null || undefined)) {
+        console.info(
+          `Translate ${source} to ${target}. In ${response.time_taken}ms. Result: ${response.result}`
+        );
+        return {
+          statusCode: 200,
+          body: JSON.stringify({
+            translatedText: response.result,
+            source,
+            target,
+          }),
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers":
+              "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
+          },
+        };
+      } else {
+        console.error(`Translation model failed with error: ${response.error}`);
+        return new errorModels.TranslationServiceError(
+          `Translation service failed: ${source}-${target}`
+        );
+      }
     })
     .catch((error) => {
       console.error(error);

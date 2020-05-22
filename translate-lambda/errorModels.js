@@ -24,7 +24,7 @@ class InvalidInputError extends TranslationError {
 class TranslationServiceError extends TranslationError {
   constructor(message) {
     super(message, {
-      statusCode: 500,
+      statusCode: 502,
       body: JSON.stringify({
         errors: [message],
       }),
