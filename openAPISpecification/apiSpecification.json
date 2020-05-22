@@ -114,9 +114,25 @@
               }
             }
           },
+          "400": {
+            "description": "The request from the user is invalid. Possible causes include missing parameters, incorrectly formed body or unsupported media type. Check the request and try again.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          },
           "401": { "$ref": "#/components/responses/UnauthorizedError" },
           "405": {
             "description": "Method not allowed this endpoint only supports POST requests.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          },
+          "413": {
+            "description": "The request is larger than the system can process.",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/Error" }
@@ -260,6 +276,14 @@
           "401": { "$ref": "#/components/responses/UnauthorizedError" },
           "405": {
             "description": "Method not allowed this endpoint only supports POST requests.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          },
+          "413": {
+            "description": "The request is larger than the system can process.",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/Error" }
