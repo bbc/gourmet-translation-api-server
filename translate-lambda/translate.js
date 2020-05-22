@@ -6,6 +6,7 @@ const AbortController = require("abort-controller");
 const controller = new AbortController();
 const timeout = setTimeout(() => {
   controller.abort();
+  console.log("Controller aborted. Fetch cancelled.");
 }, 25000);
 
 const translationRequest = (q, source, target) => {
@@ -54,6 +55,7 @@ const translationRequest = (q, source, target) => {
         })
         .finally(() => {
           clearTimeout(timeout);
+          console.log("Timeout cleared");
         });
     }
   }
