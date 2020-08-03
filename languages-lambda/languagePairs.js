@@ -25,6 +25,10 @@ module.exports = {
       target: "en",
     },
     {
+      source: "ta",
+      target: "en",
+    },
+    {
       source: "tr",
       target: "en",
     },
