@@ -24,6 +24,9 @@ const portForEachLanguagePairModel = {
   ta: {
     en: 4015,
   },
+  mk: {
+    en: 4017,
+  },
   en: {
     bg: 4002,
     sw: 4004,
@@ -33,6 +36,7 @@ const portForEachLanguagePairModel = {
     am: 4012,
     ky: 4014,
     ta: 4016,
+    mk: 4018,
   },
 };
 
