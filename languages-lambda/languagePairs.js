@@ -17,8 +17,8 @@ module.exports = {
       target: "en",
     },
     {
-      source: 'mk', 
-      target: 'en',
+      source: "mk",
+      target: "en",
     },
     {
       source: "sr",
@@ -30,6 +30,10 @@ module.exports = {
     },
     {
       source: "ta",
+      target: "en",
+    },
+    {
+      source: "ti",
       target: "en",
     },
     {
@@ -53,8 +57,8 @@ module.exports = {
       target: "ky",
     },
     {
-      source: 'en', 
-      tagret: 'mk',
+      source: "en",
+      tagret: "mk",
     },
     {
       source: "en",
@@ -67,6 +71,10 @@ module.exports = {
     {
       source: "en",
       target: "ta",
+    },
+    {
+      source: "en",
+      target: "ti",
     },
     {
       source: "en",
