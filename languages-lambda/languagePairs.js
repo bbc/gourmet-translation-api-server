@@ -13,6 +13,10 @@ module.exports = {
       target: "en",
     },
     {
+      source: "ha",
+      target: "en",
+    },
+    {
       source: "ig",
       target: "en",
     },
@@ -55,6 +59,10 @@ module.exports = {
     {
       source: "en",
       target: "gu",
+    },
+    {
+      source: "en",
+      target: "ha",
     },
     {
       source: "en",
