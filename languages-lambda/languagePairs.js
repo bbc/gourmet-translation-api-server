@@ -29,6 +29,10 @@ module.exports = {
       target: "en",
     },
     {
+      source: "ps",
+      target: "en",
+    },
+    {
       source: "sr",
       target: "en",
     },
@@ -75,6 +79,10 @@ module.exports = {
     {
       source: "en",
       tagret: "mk",
+    },
+    {
+      source: "en",
+      target: "ps",
     },
     {
       source: "en",
