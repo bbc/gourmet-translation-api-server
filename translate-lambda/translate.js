@@ -3,12 +3,6 @@ const errorModels = require("./errorModels");
 const utils = require("./utils");
 const AbortController = require("abort-controller");
 
-const controller = new AbortController();
-const timeout = setTimeout(() => {
-  controller.abort();
-  console.log("Controller aborted. Fetch cancelled.");
-}, 25000);
-
 const translationRequest = (q, source, target) => {
   if (q === undefined || source === undefined || target === undefined) {
     return Promise.reject(
@@ -25,6 +19,12 @@ const translationRequest = (q, source, target) => {
         )
       );
     } else {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => {
+        controller.abort();
+        console.log("Controller aborted. Fetch cancelled.");
+      }, 25000);
+
       return fetch(`${url}/translation`, {
         signal: controller.signal,
         method: "post",
