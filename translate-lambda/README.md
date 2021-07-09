@@ -16,17 +16,23 @@ npm install
 
 The functionality of the lambda is contained in the [`translate`](./translate.js) function so this can be called locally using `node` without needing to deploy the lambda.
 
-1. Start node 
+1. (OPTIONAL) If you want to use the local language model, follow the instructions [here](https://github.com/bbc/gourmet-translation-api/blob/master/docs/addingATranslationModel.md#1-test-new-docker-image-locally) and run:
+```
+export NODE_ENV=local
+```
+
+2. Start node
 
 ```
 node
 ```
-2. Import translate
+
+3. Import translate
 
 ```
 const translate = require('./translate')
 ```
-2. call translate
+4. call translate
 
 ```
 const input = {"body": JSON.stringify({"q": "input", "source": "en", "target": "bg"})}

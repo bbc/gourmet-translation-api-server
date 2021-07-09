@@ -11,7 +11,8 @@ const translationRequest = (q, source, target) => {
       )
     );
   } else {
-    const url = utils.getTranslationModelURL(source, target);
+    const isLocal = process.env.NODE_ENV === 'local';
+    const url = isLocal ? "http://localhost:4000" : utils.getTranslationModelURL(source, target);
     if (url === undefined) {
       return Promise.reject(
         new errorModels.InvalidInputError(
