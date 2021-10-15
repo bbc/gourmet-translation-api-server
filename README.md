@@ -8,3 +8,4 @@ The GoURMET Translation API has been built as part of the [GoURMET Project](http
 2. [Infrastructure](./docs/infrastructure.md)
 3. [Adding a Translation Model](./docs/addingATranslationModel.md)
 4. [Using the API](./docs/usingTheAPI.md)
+5. [Testing the API](./performance-test/README.md)
