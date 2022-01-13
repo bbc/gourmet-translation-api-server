@@ -69,9 +69,9 @@ const translate = (request) => {
 
   return translationRequest(q, source, target)
     .then((response) => {
-      if (response.error !== (null || undefined)) {
+      if (!response.error) {
         console.info(
-          `Translate ${source} to ${target}. In ${response.time_taken}ms. Result: ${response.result}`
+          `Translate ${source} to ${target}. In ${response.time_taken}ms. Input: ${q} Result: ${response.result}`
         );
         return {
           statusCode: 200,
