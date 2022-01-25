@@ -2,6 +2,7 @@ const fetch = require("node-fetch");
 const errorModels = require("./errorModels");
 const utils = require("./utils");
 const AbortController = require("abort-controller");
+const terminologyList = require("./static/health-terms.json");
 
 const translationRequest = (q, source, target) => {
   if (q === undefined || source === undefined || target === undefined) {
@@ -25,10 +26,13 @@ const translationRequest = (q, source, target) => {
         console.log("Controller aborted. Fetch cancelled.");
       }, 25000);
 
+      const reqBody =
+        source === "tr" || target === "tr" ? { q, terminologyList } : { q };
+
       return fetch(`${url}/translation`, {
         signal: controller.signal,
         method: "post",
-        body: JSON.stringify({ q }),
+        body: JSON.stringify(reqBody),
         headers: { "Content-Type": "application/json" },
       })
         .then((response) => {
