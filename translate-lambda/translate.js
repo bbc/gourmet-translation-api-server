@@ -2,7 +2,8 @@ const fetch = require("node-fetch");
 const errorModels = require("./errorModels");
 const utils = require("./utils");
 const AbortController = require("abort-controller");
-const terminologyList = require("./static/health-terms.json");
+const en_tr_health = require("./static/en-tr-merged.json");
+const tr_en_health = require("./static/tr-en-merged.json");
 
 const translationRequest = (q, source, target) => {
   if (q === undefined || source === undefined || target === undefined) {
@@ -26,13 +27,13 @@ const translationRequest = (q, source, target) => {
         console.log("Controller aborted. Fetch cancelled.");
       }, 25000);
 
-      const reqBody =
-        source === "tr" || target === "tr" ? { q, terminologyList } : { q };
+      const body = (source === "tr" && { q, terminologyList: tr_en_health }) ||
+        (target === "tr" && { q, terminologyList: en_tr_health }) || { q };
 
       return fetch(`${url}/translation`, {
         signal: controller.signal,
         method: "post",
-        body: JSON.stringify(reqBody),
+        body: JSON.stringify(body),
         headers: { "Content-Type": "application/json" },
       })
         .then((response) => {
