@@ -27,13 +27,28 @@ const translationRequest = (q, source, target) => {
         console.log("Controller aborted. Fetch cancelled.");
       }, 25000);
 
-      const body = (source === "tr" && { q, terminologyList: tr_en_health }) ||
-        (target === "tr" && { q, terminologyList: en_tr_health }) || { q };
+      const unfilteredTerminologyList =
+        (source === "tr" && tr_en_health) ||
+        (target === "tr" && en_tr_health) ||
+        {};
+
+      const terminologyList =
+        typeof q === "string"
+          ? Object.fromEntries(
+              Object.entries(unfilteredTerminologyList).filter(([term]) =>
+                q.includes(term)
+              )
+            )
+          : Object.fromEntries(
+              Object.entries(unfilteredTerminologyList).filter(([term]) =>
+                q.some((input) => input.includes(term))
+              )
+            );
 
       return fetch(`${url}/translation`, {
         signal: controller.signal,
         method: "post",
-        body: JSON.stringify(body),
+        body: JSON.stringify({ q, terminologyList }),
         headers: { "Content-Type": "application/json" },
       })
         .then((response) => {
