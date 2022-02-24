@@ -61,6 +61,10 @@ module.exports = {
       target: "en",
     },
     {
+      source: "yo",
+      target: "en",
+    },
+    {
       source: "en",
       target: "am",
     },
@@ -119,6 +123,10 @@ module.exports = {
     {
       source: "en",
       target: "ur",
+    },
+    {
+      source: "en",
+      target: "yo",
     },
   ],
 };
