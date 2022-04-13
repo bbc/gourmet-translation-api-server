@@ -66,6 +66,14 @@ const portForEachLanguagePairModel = {
     ur: 4030,
     yo: 4032,
   },
+  gpu: {
+    ps: {
+      en: 4033,
+    },
+    en: {
+      ps: 4034,
+    },
+  },
 };
 
 module.exports = portForEachLanguagePairModel;
