@@ -27,10 +27,12 @@ const translationRequest = (q, source, target) => {
         console.log("Controller aborted. Fetch cancelled.");
       }, 25000);
 
-      const unfilteredTerminologyList =
-        (source === "tr" && tr_en_health) ||
-        (target === "tr" && en_tr_health) ||
-        {};
+      let unfilteredTerminologyList = {};
+      if((source === "tr") && (target === "en")) {
+        unfilteredTerminologyList = tr_en_health;
+      } else if((source === "en") && (target === "tr")) {
+        unfilteredTerminologyList = en_tr_health;
+      }
 
       const terminologyList =
         typeof q === "string"
