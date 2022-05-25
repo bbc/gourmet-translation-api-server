@@ -5,11 +5,19 @@ const AbortController = require("abort-controller");
 const en_tr_health = require("./static/en-tr-merged.json");
 const tr_en_health = require("./static/tr-en-merged.json");
 
-const translationRequest = (q, source, target) => {
+const translationRequest = (q, source, target, terminologyList) => {
   if (q === undefined || source === undefined || target === undefined) {
     return Promise.reject(
       new errorModels.InvalidInputError(
         `"q", "source" and "target" must all be defined in the request body`
+      )
+    );
+  } else if(terminologyList === undefined) {
+    // Should not happen if translationRequest() is called via translate() but check in case we are
+    // called by some other means in future.
+    return Promise.reject(
+      new errorModels.InvalidInputError(
+        '"terminologyList" must be defined when calling translationRequest()'
       )
     );
   } else {
@@ -27,30 +35,31 @@ const translationRequest = (q, source, target) => {
         console.log("Controller aborted. Fetch cancelled.");
       }, 25000);
 
-      let unfilteredTerminologyList = {};
-      if((source === "tr") && (target === "en")) {
-        unfilteredTerminologyList = tr_en_health;
-      } else if((source === "en") && (target === "tr")) {
-        unfilteredTerminologyList = en_tr_health;
-      }
+      // Terminology list passed to container.
+      let filteredTerminologyList = null;
 
-      const terminologyList =
-        typeof q === "string"
-          ? Object.fromEntries(
-              Object.entries(unfilteredTerminologyList).filter(([term]) =>
-                q.includes(term)
-              )
-            )
-          : Object.fromEntries(
-              Object.entries(unfilteredTerminologyList).filter(([term]) =>
-                q.some((input) => input.includes(term))
-              )
-            );
+      // Only construct terminology list if terminologyList is truthy.
+      if(terminologyList) {
+        let unfilteredTerminologyList = {};
+        if((source === "tr") && (target === "en")) {
+          unfilteredTerminologyList = tr_en_health;
+        } else if((source === "en") && (target === "tr")) {
+          unfilteredTerminologyList = en_tr_health;
+        }
+
+        const terminologyListQuery = (typeof q === "string") ? [q] : q;
+
+        filteredTerminologyList = Object.fromEntries(
+          Object.entries(unfilteredTerminologyList).filter(([term]) =>
+            terminologyListQuery.some((input) => input.includes(term))
+          )
+        );
+      }
 
       return fetch(`${url}/translation`, {
         signal: controller.signal,
         method: "post",
-        body: JSON.stringify({ q, terminologyList }),
+        body: JSON.stringify({ q, terminologyList: filteredTerminologyList }),
         headers: { "Content-Type": "application/json" },
       })
         .then((response) => {
@@ -89,7 +98,10 @@ const translate = (request) => {
   const target = body.target;
   const q = body.q;
 
-  return translationRequest(q, source, target)
+  // Should we make use of a terminology list if present? Defaults to false.
+  const terminologyList = !!(body.terminologyList);
+
+  return translationRequest(q, source, target, terminologyList)
     .then((response) => {
       if (response.error !== (null || undefined)) {
         console.info(
